@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rate Calculator</title>
+    <style>
+        body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+h1{
+    text-align: center;
+}
+.container{
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td{
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th{
+    background-color: #4caf50;
+    color: white;
+}
+input[type="number"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+button{
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #ad2c2c;
+    animation: glow 1.5s infinite;
+}
+@keyframes glow{
+    0%{
+        box-shadow: 0 0 5px #4caf50;
+    }
+    50%{
+        box-shadow: 0 0 20px #4caf50;
+    }
+    100%{
+        box-shadow: 0 0 5px #4caf50;
+    }
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>Exchange Rate Calculator</h1>
+
+        <label for="amount">Amount in ZAR:</label>
+        <input type="number" id="amount" placeholder="Enter amount in ZAR" required>
+
+        <!--Table contents for the currencies-->
+        <table>
+            <thead>
+                <tr>
+                    <th>Currency</th>
+                    <th>Flag</th>
+                    <th>Conversation Rate</th>
+                    <th>Converted Amount</th>
+                </tr>
+            </thead>
+            <tbody id="currency-table">
+                <td>USD (US Dollar)</td>
+                <td class="flag"><img src="flags/united-states.png" width="20px" alt="USA_flag"></td>
+                <td id="rate1">17.83</td>
+                <td id="result1">0.00</td>
+                <tr>
+                    <td>EUR (Euro)</td>
+                    <td class="flag"><img src="flags/european-union.png" width="20px" alt="Europe_flag"></td>
+                    <td id="rate2">19.75</td>
+                    <td id="result2">0.00</td>
+                </tr>
+                <tr>
+                    <td>GBP (British Pound)</td>
+                    <td class="flag"><img src="flags/british.png" width="20px" alt="britain_flag"></td>
+                    <td id="rate3">23.44</td>
+                    <td id="result3">0.00</td>
+                </tr>
+                <tr>
+                    <td>JPY (Japanese Yen)</td>
+                    <td class="flag"><img src="flags/japan.png" width="20px" alt="japan_flag"></td>
+                    <td id="rate4">0.12</td>
+                    <td id="result4">0.00</td>
+                </tr>
+                <tr>
+                    <td>AUD (Australian Dollar)</td>
+                    <td class="flag"><img src="flags/australia.png" width="20px" alt="Australia_flag"></td>
+                    <td id="rate5">12.11</td>
+                    <td id="result5">0.00</td>
+                </tr>
+                <tr>
+                    <td>CAD (Canadian Dollar)</td>
+                    <td class="flag"><img src="flags/canada.png" width="20px" alt="Canada_flag"></td>
+                    <td id="rate6">13.21</td>
+                    <td id="result6">0.00</td>
+                </tr>
+                <tr>
+                    <td>CHF (Swiss Franc)</td>
+                    <td class="flag"><img src="flags/switzerland.png" width="20px" alt="swiss_flag"></td>
+                    <td id="rate7">20.56</td>
+                    <td id="result7">0.00</td>
+                </tr>
+                <tr>
+                    <td>CNY (Chinese Yuan)</td>
+                    <td class="flag"><img src="flags/china.png" width="20px" alt="china_flag"></td>
+                    <td id="rate8">2.51</td>
+                    <td id="result8">0.00</td>
+                </tr>
+                <tr>
+                    <td>INR (Indian Rupee)</td>
+                    <td class="flag"><img src="flags/flag.png" width="20px" India_flag></td>
+                    <td id="rate9">0.21</td>
+                    <td id="result9">0.00</td>
+                </tr>
+                <tr>
+                    <td>BRL (Brazilian Real)</td>
+                        <td class="flag"><img src="flags/flag (1).png" width="20px" alt="brazil_flag"></a></td>
+                        <td id="rate10">3.18</td>
+                        <td id="result10">0.00</td>
+            </tbody>
+        </table>
+        <button onclick="convertCurrency()">Convert currency to ZAR</button>
+    </div>
+    <script>
+        
+        function convertCurrency(){
+            var amount = parseFloat(document.getElementById('amount').value);
+            if(isNaN(amount)){
+                alert("Please a valid number");
+                return
+            }
+            // Conversion rates from ZAR to other countries
+            var rates = [
+                parseFloat(document.getElementById('rate1').textContent),
+                parseFloat(document.getElementById('rate2').textContent),
+                parseFloat(document.getElementById('rate3').textContent),
+                parseFloat(document.getElementById('rate4').textContent),
+                parseFloat(document.getElementById('rate5').textContent),
+                parseFloat(document.getElementById('rate6').textContent),
+                parseFloat(document.getElementById('rate7').textContent),
+                parseFloat(document.getElementById('rate8').textContent),
+                parseFloat(document.getElementById('rate9').textContent),
+                parseFloat(document.getElementById('rate10').textContent)
+            ];
+
+            // Update the converted amounts
+            for (var i = 0; i < rates.length; i++){
+                var result = amount * rates[i];
+                document.getElementById('result' + (i+1)).textContent = result.toFixed(2);
+            }
+            // Trigger confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: {y: 0.6}
+            });
+
+        }
+    </script>
+</body>
+
+</html>
